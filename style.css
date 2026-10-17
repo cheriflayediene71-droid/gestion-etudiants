@@ -1,0 +1,439 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --couleur-de-fond: #0f172a;
+  --second-couleur: #1e293b;
+  --couleur-text: #e2e8f0;
+  --couleur-survol: #0ea5e9;
+  --bordure: #334155;
+  --accent-boutons: #38bdf8;
+  --bouton-supprimer-echec: #dc2626;
+  --bouton-modifier: #f59e0b;
+  --succes-note: #16a34a;
+}
+
+body {
+  background-color: var(--couleur-de-fond);
+  color: var(--couleur-text);
+}
+
+/* ==== header ==== */
+header {
+  background-color: var(--second-couleur);
+  color: var(--couleur-text);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 20px;
+  line-height: 2.2rem;
+}
+
+.gauche span {
+  color: var(--accent-boutons);
+}
+
+.droite i {
+  color: var(--accent-boutons);
+  font-size: 2.3rem;
+}
+
+/* ==== section colones ==== */
+.colones {
+  display: block;
+  padding: 15px 20px;
+}
+
+.conteneur {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 20px;
+}
+
+.item {
+  background-color: var(--second-couleur);
+  padding: 15px;
+  border-radius: 10px;
+  text-align: center;
+  border: var(--bordure) 2px solid;
+  width: auto;
+  margin: 10px;
+}
+
+.item span {
+  color: var(--accent-boutons);
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+.formulaire {
+  background-color: var(--second-couleur);
+  width: 65%;
+  max-width: 1000px;
+  margin: 30px auto;
+  padding: 25px;
+  border-radius: 10px;
+}
+
+.formulaire h2 {
+  margin-bottom: 2rem;
+  text-align: center;
+  color: var(--accent-boutons);
+}
+
+#form-etudiant {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.champ {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.champ label {
+  font-weight: bold;
+}
+
+.champ input {
+  padding: 12px;
+  border: none;
+  border-bottom: var(--accent-boutons) 2px solid;
+  border-radius: 6px;
+  outline: none;
+  font-size: 1rem;
+  background: transparent;
+  color: var(--couleur-text);
+}
+
+
+
+.champ input:focus {
+  box-shadow: 0 0 0 1px var(--accent-boutons);
+  box-shadow: 8px 8px 12px rgba(195, 205, 228, 0.18), -8px -8px 12px rgba(62, 109, 218, 0.18);
+
+}
+
+#form-etudiant button {
+  grid-column: 1 / -1;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  background-color: var(--accent-boutons);
+  color: var(--second-couleur);
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+#form-etudiant button:hover {
+  opacity: 0.85;
+  transform: scale(0.9);
+}
+.liste {
+  background-color: var(--second-couleur);
+  width: 95%;
+  margin: 30px auto;
+  padding: 25px;
+  border-radius: 10px;
+}
+
+.texteG {
+  line-height: 2rem;
+}
+
+.texteG p {
+  color: #999;
+}
+.entete-liste {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+.recherche {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+}
+.recherche i {
+  color: var(--second-couleur);
+}
+.recherche input {
+  border: none;
+  outline: none;
+  font-size: 1rem;
+}
+.tableau {
+  overflow-x: auto;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  color: #333;
+}
+
+td {
+  padding: 12px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+  background-color: var(--second-couleur);
+  color: var(--couleur-text);
+}
+th {
+  background-color: var(--couleur-de-fond);
+  color: var(--second-couleur);
+}
+tr:hover {
+  background-color: #f5f5f5;
+}
+
+.btn-supprimer,
+.btn-modifier {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.btn-supprimer {
+  color: var(--bouton-supprimer-echec);
+  background-color: rgba(217, 128, 128, 0.15);
+  transition: 0.3s;
+}
+.btn-supprimer:hover {
+  transform: scale(1.1);
+}
+
+.btn-modifier {
+  color: var(--bouton-modifier);
+  background-color: rgba(128, 128, 128, 0.15);
+  transition: 0.3s;
+}
+.btn-modifier:hover {
+  transform: scale(1.1);
+}
+
+@media (max-width: 700px) {
+  header {
+    flex-direction: column;
+    text-align: center;
+    gap: 15px;
+  }
+  .conteneur {
+    flex-direction: column;
+    gap: 0;
+  }
+  .item {
+    width: 90%;
+    margin: 10px;
+  }
+
+  #form-etudiant {
+    grid-template-columns: 1fr;
+  }
+  .entete-liste {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .recherche {
+    width: 100%;
+  }
+}
+
+/* ==== section liste des etudiants ===== */
+#listeEtudiants {
+  margin-top: 2rem;
+  margin: 20px;
+  background-color: var(--second-couleur);
+  padding: 15px;
+  border: var(--bordure) 2px solid;
+  border-radius: 10px;
+}
+
+#listeEtudiants h2 {
+  color: var(--accent-boutons);
+  font-size: 1.7rem;
+}
+
+#listeEtudiants p {
+  color: #999;
+}
+
+table {
+  margin-top: 2rem;
+  border: var(--bordure) 1px solid;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th {
+  border-bottom: var(--bordure) 1px solid;
+  border-right: var(--bordure) 1px solid;
+  padding: 20px;
+  color: var(--accent-boutons);
+}
+
+td {
+  border-bottom: var(--bordure) 1px solid;
+  border-right: var(--bordure) 1px solid;
+  padding: 10px;
+}
+
+/* ======== */
+td.admis {
+  background-color: var(--second-couleur);
+  color: var(--succes-note);
+  font-weight: bold;
+}
+
+td.echec {
+  background-color: var(--second-couleur);
+  color: var(--bouton-supprimer-echec);
+  font-weight: bold;
+}
+
+
+/* ====== filtres ====== */
+.entte-liste {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.outils {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin: 20px 0;
+}
+
+/* Les deux selects */
+#filtre-classe,
+#tri {
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid #334155;
+  background-color: #1e293b;
+  color: #e2e8f0;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* Base commune aux deux boutons */
+#btn-export-csv,
+#btn-export-xlsx {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* Bouton CSV : bleu */
+#btn-export-csv {
+  background-color: transparent;
+  color: #38bdf8;
+  border: 2px solid #38bdf8;
+}
+
+#btn-export-csv:hover {
+  background-color: #38bdf8;
+  color: #0f172a;
+}
+
+/* Bouton Excel : vert */
+#btn-export-xlsx {
+  background-color: transparent;
+  color: #22c55e;
+  border: 2px solid #22c55e;
+}
+
+#btn-export-xlsx:hover {
+  background-color: #22c55e;
+  color: #0f172a;
+}
+
+/* Effet au clic */
+#btn-export-csv:active,
+#btn-export-xlsx:active {
+  transform: scale(0.97);
+}
+
+/* ===== message ===== */
+.message-vide {
+  text-align: center;
+  padding: 30px;
+  color: #fff;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.message-erreur {
+  color: #f87171;
+  font-weight: 600;
+  margin: 10px 0;
+}
+
+.message-succes {
+  color: #22c55e;
+  font-weight: 600;
+  margin: 10px 0;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin: 24px 0;
+  color: #e2e8f0;
+  font-size: 15px;
+}
+
+.pagination span {
+  min-width: 110px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.pagination button {
+  padding: 10px 18px;
+  border-radius: 8px;
+  border: 2px solid #38bdf8;
+  background-color: transparent;
+  color: #38bdf8;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pagination button:hover:not(:disabled) {
+  background-color: #38bdf8;
+  color: #0f172a;
+}
+
+.pagination button:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+.pagination button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}

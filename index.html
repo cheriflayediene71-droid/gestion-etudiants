@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gestion des etudiants UNCHK</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css"
+      integrity="sha512-QeR2VH+lsBE5LSAe1Q5EnTBbe7XTBubt8dG93Y7gidSgdMCr8nVqKcfKAMyN96SV8KDbZVTDXChatu5G2KQGzg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <div class="gauche">
+        <h5 class="p1">ESPACE ADMINISTRATION</h5>
+        <h1>Gestion des étudiants <span>UNCHK</span></h1>
+        <p class="p2">Gérez les inscriptions et suivez les résultats.</p>
+      </div>
+
+      <div class="droite">
+        <p><i class="fa-solid fa-graduation-cap"></i></p>
+      </div>
+    </header>
+
+    <section class="colones">
+      <!-- les trois colones -->
+    </section>
+
+    <section class="formulaire">
+      <h2>Ajouter un étudiant</h2>
+
+      <form id="form-etudiant" novalidate>
+        <div class="champ">
+          <label for="nom">Nom</label>
+          <input type="text" id="nom" placeholder="Nom" />
+        </div>
+
+        <div class="champ">
+          <label for="prenom">Prénom</label>
+          <input type="text" id="prenom" placeholder="Prénom" required />
+        </div>
+
+        <div class="champ">
+          <label for="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            placeholder="gayemame021@gmail.com"
+            required
+          />
+        </div>
+
+        <div class="champ">
+          <label for="classe">Classe</label>
+          <input
+            type="text"
+            id="classe"
+            placeholder="Ex : L2 Informatique"
+            required
+          />
+        </div>
+
+        <div class="champ">
+          <label for="note">Note</label>
+          <input
+            type="number"
+            id="note"
+            min="0"
+            max="20"
+            step="0.01"
+            placeholder="Votre note"
+            required
+          />
+        </div>
+
+        <p id="message-erreur" class="message-erreur"></p>
+        <p id="message-succes" class="message-succes"></p>
+
+        <button type="submit">
+          <i class="fa-solid fa-plus"></i>
+          Ajouter l'étudiant
+        </button>
+      </form>
+    </section>
+
+    <section class="liste">
+      <div class="entete-liste">
+        <div class="texteG">
+          <h2>Liste des étudiants</h2>
+          <p>Cosultez et gerez les inscriptions.</p>
+        </div>
+
+        <div class="recherche">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input
+            type="text"
+            id="recherche"
+            placeholder="Rechercher un étudiant..."
+          />
+        </div>
+      </div>
+
+      <div class="outils">
+        <select id="filtre-classe">
+          <option value="">Toutes les classes</option>
+          <option value="L1">L1</option>
+          <option value="L2">L2</option>
+          <option value="L3">L3</option>
+        </select>
+
+        <select id="tri">
+          <option value="">Aucun tri</option>
+          <option value="nom-az">Nom : A à Z</option>
+          <option value="nom-za">Nom : Z à A</option>
+          <option value="note-desc">Note : du meilleur au moins bon</option>
+          <option value="note-asc">Note : du moins bon au meilleur</option>
+        </select>
+
+        <button id="btn-export-csv">
+          <i class="fa-solid fa-file-csv"></i> Exporter en CSV
+        </button>
+
+        <button id="btn-export-xlsx">
+          <i class="fa-solid fa-file-excel"></i> Exporter en Excel
+        </button>
+      </div>
+
+      <div class="tableau">
+        <table>
+          <thead>
+            <tr>
+              <th>Nom</th>
+              <th>Prénom</th>
+              <th>Email</th>
+              <th>Classe</th>
+              <th>Note</th>
+              <th>Résultat</th>
+              <th colspan="2">Actions</th>
+            </tr>
+          </thead>
+
+          <tbody id="liste-etudiants">
+            <!-- Les étudiants seront ajoutés ici avec JavaScript -->
+          </tbody>
+        </table>
+
+        <!-- <div id="pagination" class="pagination"></div> -->
+      </div>
+
+      <div id="pagination" class="pagination"></div>
+    </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
