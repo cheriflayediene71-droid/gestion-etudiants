@@ -36,6 +36,12 @@ header {
   color: var(--accent-boutons);
 }
 
+.droite{
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
 .droite i {
   color: var(--accent-boutons);
   font-size: 2.3rem;
@@ -116,7 +122,10 @@ header {
 .champ input:focus {
   box-shadow: 0 0 0 1px var(--accent-boutons);
   box-shadow: 8px 8px 12px rgba(195, 205, 228, 0.18), -8px -8px 12px rgba(62, 109, 218, 0.18);
+}
 
+.champ input.invalide {
+  border-bottom: 2px solid var(--bouton-supprimer-echec);
 }
 
 #form-etudiant button {
@@ -385,15 +394,87 @@ td.echec {
 }
 
 .message-erreur {
-  color: #f87171;
-  font-weight: 600;
-  margin: 10px 0;
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background-color: #dc2626;
+  color: #ffffff;
+  padding: 16px 28px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 700;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  animation: apparition 0.4s ease;
+}
+
+.message-erreur::before {
+  content: "!";
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background-color: #ffffff;
+  color: #dc2626;
+  border-radius: 50%;
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.message-erreur:empty {
+  display: none;
 }
 
 .message-succes {
-  color: #22c55e;
-  font-weight: 600;
-  margin: 10px 0;
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background-color: #16a34a;
+  color: #ffffff;
+  padding: 16px 28px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 700;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  animation: apparition 0.4s ease;
+}
+
+.message-succes::before {
+  content: "✔";
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background-color: #ffffff;
+  color: #16a34a;
+  border-radius: 50%;
+  font-size: 16px;
+}
+
+.message-succes:empty {
+  display: none;
+}
+
+@keyframes apparition {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -30px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
 }
 
 .pagination {
@@ -436,4 +517,193 @@ td.echec {
 .pagination button:disabled {
   opacity: 0.4;
   cursor: not-allowed;
+}
+
+
+/* ===== boîte de confirmation ===== */
+.modal {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(15, 23, 42, 0.7);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.modal.ouvert {
+  display: flex;
+}
+
+.modal-contenu {
+  background-color: var(--second-couleur);
+  color: var(--couleur-text);
+  border: 2px solid var(--bordure);
+  border-radius: 14px;
+  padding: 28px;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+  animation: zoom 0.25s ease;
+}
+
+.modal-icone {
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 16px;
+  border-radius: 50%;
+  background-color: rgba(220, 38, 38, 0.15);
+  color: var(--bouton-supprimer-echec);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+
+.modal-contenu h3 {
+  margin-bottom: 8px;
+}
+
+.modal-contenu p {
+  opacity: 0.8;
+  margin-bottom: 24px;
+}
+
+.modal-boutons {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.modal-boutons button {
+  padding: 10px 22px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+#btn-annuler {
+  background-color: transparent;
+  border: 2px solid var(--bordure);
+  color: var(--couleur-text);
+}
+
+#btn-annuler:hover {
+  border-color: var(--accent-boutons);
+  color: var(--accent-boutons);
+}
+
+#btn-confirmer {
+  background-color: #dc2626;
+  border: 2px solid #dc2626;
+  color: #ffffff;
+}
+
+#btn-confirmer:hover {
+  background-color: #b91c1c;
+  border-color: #b91c1c;
+}
+
+@keyframes zoom {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ==== mode clair ==== */
+
+/* Bouton de thème */
+#btn-theme {
+  width: 49px;
+  height: 46px;
+  border-radius: 50%;
+  border: 2px solid var(--bordure);
+  background-color: transparent;
+  color: var(--accent-boutons);
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+#btn-theme:hover {
+  background-color: var(--couleur-survol);
+  color: var(--couleur-de-fond);
+}
+
+/* Les couleurs du mode clair */
+[data-theme="light"] {
+  --couleur-de-fond: #f1f5f9;
+  --second-couleur: #ffffff;
+  --couleur-text: #0f172a;
+  --couleur-survol: #0369a1;
+  --bordure: #cbd5e1;
+  --accent-boutons: #0284c7;
+  --bouton-supprimer-echec: #b91c1c;
+  --bouton-modifier: #b45309;
+  --succes-note: #15803d;
+}
+
+/* Un peu de relief pour les blocs blancs */
+[data-theme="light"] header,
+[data-theme="light"] .formulaire,
+[data-theme="light"] .liste {
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
+}
+
+/* Les éléments qui avaient des couleurs écrites en dur */
+[data-theme="light"] .texteG p {
+  color: #64748b;
+}
+
+[data-theme="light"] .recherche {
+  border: 1px solid var(--bordure);
+}
+
+[data-theme="light"] .recherche i {
+  color: #475569;
+}
+
+[data-theme="light"] .message-vide {
+  color: #475569;
+}
+
+[data-theme="light"] #filtre-classe,
+[data-theme="light"] #tri {
+  background-color: #ffffff;
+  color: #0f172a;
+  border-color: #cbd5e1;
+}
+
+[data-theme="light"] .pagination {
+  color: #475569;
+}
+
+[data-theme="light"] .pagination button,
+[data-theme="light"] #btn-export-csv {
+  color: #0284c7;
+  border-color: #0284c7;
+}
+
+[data-theme="light"] .pagination button:hover:not(:disabled),
+[data-theme="light"] #btn-export-csv:hover {
+  background-color: #0284c7;
+  color: #ffffff;
+}
+
+[data-theme="light"] #btn-export-xlsx {
+  color: #15803d;
+  border-color: #15803d;
+}
+
+[data-theme="light"] #btn-export-xlsx:hover {
+  background-color: #15803d;
+  color: #ffffff;
 }

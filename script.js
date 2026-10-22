@@ -11,6 +11,8 @@ formulaire.addEventListener("submit", function (e) {
 
   const messageErreur = document.getElementById("message-erreur");
   messageErreur.textContent = "";
+  document.getElementById("email").classList.remove("invalide");
+
 
   document.getElementById("message-succes").textContent = "";
 
@@ -30,7 +32,9 @@ formulaire.addEventListener("submit", function (e) {
     // alert("Tous les champs doivent être remplis !");
     // return;
 
-    messageErreur.textContent = "Tous les champs sont obligatoires !";
+    // messageErreur.textContent = "Tous les champs sont obligatoires !";
+    // return;
+    afficherErreur("Tous les champs sont obligatoires !");
     return;
   }
 
@@ -40,7 +44,9 @@ formulaire.addEventListener("submit", function (e) {
     // alert("Saisissez une note valide !");
     // return;
 
-    messageErreur.textContent = "Tous les champs sont obligatoires !";
+    // messageErreur.textContent = "Tous les champs sont obligatoires !";
+    // return;
+    afficherErreur("Tous les champs sont obligatoires !");
     return;
   }
 
@@ -65,24 +71,27 @@ formulaire.addEventListener("submit", function (e) {
 
   const etudiants = JSON.parse(localStorage.getItem("etudiants")) || [];
 
-  // Vérifier si l'email existe déjà
+    // Vérifier si l'email existe déjà
   let emailExiste = false;
 
   if (indexModification === null) {
     // Mode ajout
     emailExiste = etudiants.some(function (etudiant) {
-      return etudiant.mailE === mailSaisie;
+      return etudiant.mailE.toLowerCase() === mailSaisie.toLowerCase();
     });
   } else {
     // Mode modification
-    // On vérifie seulement si l'email appartient à un autre étudiant
     emailExiste = etudiants.some(function (etudiant, index) {
-      return etudiant.mailE === mailSaisie && index !== indexModification;
+      return (
+        etudiant.mailE.toLowerCase() === mailSaisie.toLowerCase() &&
+        index !== indexModification
+      );
     });
   }
 
   if (emailExiste) {
-    alert("Cet email est déjà utilisé !");
+    document.getElementById("email").classList.add("invalide");
+    afficherErreur("Cet email est déjà utilisé !");
     return;
   }
 
@@ -96,17 +105,29 @@ formulaire.addEventListener("submit", function (e) {
 
   console.log(etudiantAjt);
 
+  // const messageSucces = document.getElementById("message-succes");
+
+  // if (indexModification === null) {
+  //   messageSucces.textContent = "Étudiant ajouté avec succès !";
+  // } else {
+  //   messageSucces.textContent = "Étudiant modifié avec succès !";
+  // }
+
+  // setTimeout(function () {
+  //   messageSucces.textContent = "";
+  // }, 3000);
+
   const messageSucces = document.getElementById("message-succes");
 
   if (indexModification === null) {
-    messageSucces.textContent = "Étudiant ajouté avec succès !";
+    messageSucces.textContent = `${prenomSaisie} ${nomSaisie} a été ajouté avec succès !`;
   } else {
-    messageSucces.textContent = "Étudiant modifié avec succès !";
+    messageSucces.textContent = `${prenomSaisie} ${nomSaisie} a été modifié avec succès !`;
   }
 
   setTimeout(function () {
     messageSucces.textContent = "";
-  }, 3000);
+  }, 4000);
 
   afficherEtudiant();
 
@@ -117,6 +138,8 @@ formulaire.addEventListener("submit", function (e) {
     "Ajouter étudiant";
 
   indexModification = null;
+
+    afficherEtudiant(recherche.value);
 });
 
 function afficherEtudiant(texteRecherche = "") {
@@ -226,19 +249,29 @@ function afficherEtudiant(texteRecherche = "") {
   const etudiantsPage = etudiantsFiltres.slice(debut, debut + etudiantsParPage);
 
   // ==== messages =====
-  if (etudiantsFiltres.length === 0) {
-    let message = "Aucun étudiant ne correspond à votre recherche.";
+    if (etudiantsFiltres.length === 0) {
+      let message = "Aucun étudiant enregistré pour le moment.";
 
-    if (etudiantRecuperer.length === 0) {
-      message = "Aucun étudiant enregistré pour le moment.";
+      if (etudiantRecuperer.length > 0) {
+        const texteSaisi = texteRecherche.trim();
+
+        if (texteSaisi !== "") {
+          message = `"${texteSaisi}" ne figure pas dans la liste.`;
+        } else {
+          message = "Aucun étudiant dans cette classe.";
+        }
+      }
+
+      const ligneVide = document.createElement("tr");
+      const celluleVide = document.createElement("td");
+
+      celluleVide.colSpan = 8;
+      celluleVide.className = "message-vide";
+      celluleVide.textContent = message;
+
+      ligneVide.appendChild(celluleVide);
+      corps.appendChild(ligneVide);
     }
-
-    corps.innerHTML = `
-      <tr>
-        <td colspan="8" class="message-vide">${message}</td>
-      </tr>
-    `;
-  }
 
   etudiantsPage.forEach(function (element) {
     const etudiant = element.etudiant;
@@ -327,19 +360,74 @@ function afficherEtudiant(texteRecherche = "") {
   `;
 }
 
-function supprimerEtudiant(index) {
-  const confirmation = confirm("Voulez-vous vraiment supprimer cet étudiant ?");
+function afficherErreur(texte) {
+  const messageErreur = document.getElementById("message-erreur");
+  messageErreur.textContent = texte;
 
-  if (confirmation) {
+  setTimeout(function () {
+    messageErreur.textContent = "";
+  }, 4000);
+}
+
+
+
+let indexASupprimer = null;
+
+function supprimerEtudiant(index) {
+  const etudiants = JSON.parse(localStorage.getItem("etudiants")) || [];
+  const etudiant = etudiants[index];
+
+  indexASupprimer = index;
+
+  document.getElementById("modal-texte").textContent =
+    `${etudiant.prenomE} ${etudiant.nomE} sera supprimé définitivement.`;
+
+  document.getElementById("modal-suppression").classList.add("ouvert");
+}
+
+function fermerModal() {
+  document.getElementById("modal-suppression").classList.remove("ouvert");
+  indexASupprimer = null;
+}
+
+document.getElementById("btn-annuler").addEventListener("click", fermerModal);
+
+document
+  .getElementById("btn-confirmer")
+  .addEventListener("click", function () {
     const etudiants = JSON.parse(localStorage.getItem("etudiants")) || [];
 
-    etudiants.splice(index, 1);
+    etudiants.splice(indexASupprimer, 1);
 
     localStorage.setItem("etudiants", JSON.stringify(etudiants));
 
-    afficherEtudiant();
+    fermerModal();
+
+    const messageSucces = document.getElementById("message-succes");
+    messageSucces.textContent = "Étudiant supprimé avec succès !";
+
+    setTimeout(function () {
+      messageSucces.textContent = "";
+    }, 4000);
+
+    afficherEtudiant(recherche.value);
+  });
+
+document
+  .getElementById("modal-suppression")
+  .addEventListener("click", function (e) {
+    if (e.target === this) {
+      fermerModal();
+    }
+  });
+
+document.addEventListener("keydown", function (e) {
+  if (e.key === "Escape") {
+    fermerModal();
   }
-}
+});
+
+
 
 function modifierEtudiant(index) {
   const etudiants = JSON.parse(localStorage.getItem("etudiants")) || [];
@@ -458,4 +546,32 @@ const btnExportExcel = document.getElementById("btn-export-xlsx");
 
 btnExportExcel.addEventListener("click", exporterExcel);
 
+// ======= mode claire et sombre ======
+const btnTheme = document.getElementById("btn-theme");
+
+function appliquerTheme(theme) {
+  document.documentElement.setAttribute("data-theme", theme);
+  localStorage.setItem("theme", theme);
+
+  if (theme === "light") {
+    btnTheme.innerHTML = '<i class="fa-solid fa-moon"></i>';
+  } else {
+    btnTheme.innerHTML = '<i class="fa-solid fa-sun"></i>';
+  }
+}
+
+const themeSauvegarde = localStorage.getItem("theme") || "dark";
+appliquerTheme(themeSauvegarde);
+
+btnTheme.addEventListener("click", function () {
+  const themeActuel = document.documentElement.getAttribute("data-theme");
+
+  if (themeActuel === "dark") {
+    appliquerTheme("light");
+  } else {
+    appliquerTheme("dark");
+  }
+});
+
 afficherEtudiant();
+
